@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,10 +37,24 @@ public class MainActivity extends AppCompatActivity {
             appears in the spinner control. The simple_spinner_item layout is provided by the platform
             and is the default layout you should use unless you'd like to define your own layout
             for the spinner's appearance.
+
+            You should then call setDropDownViewResource(int) to specify the layout the adapter should
+            use to display the list of spinner choices (simple_spinner_dropdown_item is another
+            standard layout defined by the platform).
+
+            Call setAdapter() to apply the adapter to your Spinner.
         */
+
 
         // Setting up spinners, supply the spinner with the array using an instance of ArrayAdapter:
         Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
+        MainActivitySpinner spLi = new MainActivitySpinner();
+
+        spLi.getSpinner(spinner);
+        spLi.setSpinner();
+       // spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array,
                 android.R.layout.simple_spinner_item);
@@ -48,8 +64,17 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
 
+    }
 
+    // Methods related to ItemSelectedListener
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+        String item = parent.getItemAtPosition(position).toString();
 
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+    }
+
+    public void onNothingSelected(AdapterView<?> parent){
 
     }
 
