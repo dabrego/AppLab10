@@ -13,9 +13,12 @@
     tools:showIn="@layout/activity_venus">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="@string/venus"
-        android:id="@+id/venus" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mensaje"
+        android:text="@string/mensaje"
+        android:background="@drawable/button_custom"
+        android:onClick="createMessage" />
 </LinearLayout>

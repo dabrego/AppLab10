@@ -1,5 +1,13 @@
+/*
+    This app makes use of a spinner
+    and also styles a button using image buttons
+*/
+
+
 package com.developerandroid.applab10;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    public static boolean selected = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +60,44 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting up spinners, supply the spinner with the array using an instance of ArrayAdapter:
         Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
-        MainActivitySpinner spLi = new MainActivitySpinner();
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.err.println("**************" + position);
+                String item = parent.getItemAtPosition(position).toString();
 
-        spLi.getSpinner(spinner);
-        spLi.setSpinner();
-       // spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        Intent i = new Intent();
+                        i.setClass(MainActivity.this, VenusActivity.class);
+                        startActivity(i);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.planets_array,
                 android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
 
     }
 
-    // Methods related to ItemSelectedListener
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        String item = parent.getItemAtPosition(position).toString();
 
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-    }
-
-    public void onNothingSelected(AdapterView<?> parent){
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,9 +121,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+        System.err.println("**************" + position);
+        String item = parent.getItemAtPosition(position).toString();
+
+        switch (position) {
+            case 0:
+                Intent i = new Intent();
+                i.setClass(MainActivity.this, VenusActivity.class);
+                startActivity(i);
+                break;
+            default:
+                break;
+        }
+
+    }
 
 
 
+    public void onNothingSelected(AdapterView<?> parent){
+        Toast.makeText(parent.getContext(), "Nada ha sido seleccionado...", Toast.LENGTH_LONG).show();
+    }
 
 }
 
